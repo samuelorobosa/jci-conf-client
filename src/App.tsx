@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from 'react-router-dom';
 import {
   QueryClient,
@@ -12,7 +13,6 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { DelegatesList } from '@/pages/delegates/DelegatesList';
-import { TrainingsList } from '@/pages/trainings/TrainingsList';
 import { useAuthStore } from '@/store/auth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { AdminsList } from '@/pages/admins/AdminsList';
@@ -30,7 +30,19 @@ const PrivateRoute: FC<{ children: React.ReactNode }> = ({
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+const PublicRoute: FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { isAuthenticated } = useAuthStore();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;
@@ -47,54 +59,36 @@ export const App: FC = () => {
     <QueryClientProvider client={queryClient}>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          {/* Public Routes */}
           <Route
-            path="/"
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+
+          {/* Protected Routes */}
+          <Route
             element={
               <PrivateRoute>
                 <DashboardLayout>
-                  <DelegatesList />
+                  <Outlet />
                 </DashboardLayout>
               </PrivateRoute>
             }
-          />
-          <Route
-            path="/admins"
-            element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <AdminsList />
-                </DashboardLayout>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/delegates"
-            element={
-              <PrivateRoute>
-                <DelegatesList />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/trainings"
-            element={
-              <PrivateRoute>
-                <TrainingsList />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <Navigate to="/delegates" />
-                </DashboardLayout>
-              </PrivateRoute>
-            }
-          />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          >
+            <Route path="/delegates" element={<DelegatesList />} />
+            <Route path="/admins" element={<AdminsList />} />
+            <Route
+              path="/"
+              element={<Navigate to="/delegates" replace />}
+            />
+          </Route>
+
+          {/* Catch all route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
       <Toaster position="top-right" />

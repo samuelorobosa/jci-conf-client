@@ -2,7 +2,7 @@ import { FC, ReactNode, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, Calendar, UserPlus } from 'lucide-react';
+import { LogOut, Users, UserPlus } from 'lucide-react';
 import { AddAdminForm } from '@/components/admin/AddAdminForm';
 
 interface DashboardLayoutProps {
@@ -47,7 +47,7 @@ export const DashboardLayout: FC<DashboardLayoutProps> = ({
                   <Users className="h-5 w-5" />
                   <span>Delegates</span>
                 </Button>
-                <Button
+                {/* <Button
                   variant={
                     isActive('/trainings') ? 'default' : 'ghost'
                   }
@@ -56,7 +56,7 @@ export const DashboardLayout: FC<DashboardLayoutProps> = ({
                 >
                   <Calendar className="h-5 w-5" />
                   <span>Trainings</span>
-                </Button>
+                </Button> */}
                 {isSuperAdmin && (
                   <Button
                     variant={

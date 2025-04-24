@@ -245,268 +245,259 @@ export const DelegatesList: FC = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="space-y-4 p-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h2 className="text-2xl font-bold">Delegates</h2>
-          <Button
-            onClick={handleAddClick}
-            className="flex items-center space-x-2 w-full sm:w-auto"
-          >
-            <Plus className="h-5 w-5" />
-            <span>Add Delegate</span>
-          </Button>
-        </div>
+    <div className="space-y-4 p-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h2 className="text-2xl font-bold">Delegates</h2>
+        <Button
+          onClick={handleAddClick}
+          className="flex items-center space-x-2 w-full sm:w-auto"
+        >
+          <Plus className="h-5 w-5" />
+          <span>Add Delegate</span>
+        </Button>
+      </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-          <div className="relative flex-1 w-full">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search by name, email, or organization..."
-              value={search}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="pl-8 w-full"
-            />
-          </div>
-          <Select
-            value={localOrganization || 'all'}
-            onValueChange={handleLocalOrganizationChange}
-          >
-            <SelectTrigger className="w-full sm:w-[200px]">
-              <SelectValue placeholder="Filter by organization" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Organizations</SelectItem>
-              {data?.data
-                .map((d) => d.localOrganization)
-                .filter(
-                  (value, index, self) =>
-                    self.indexOf(value) === index
-                )
-                .map((org) => (
-                  <SelectItem key={org} value={org}>
-                    {org}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <div className="relative flex-1 w-full">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by name, email, or organization..."
+            value={search}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="pl-8 w-full"
+          />
         </div>
+        <Select
+          value={localOrganization || 'all'}
+          onValueChange={handleLocalOrganizationChange}
+        >
+          <SelectTrigger className="w-full sm:w-[200px]">
+            <SelectValue placeholder="Filter by organization" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Organizations</SelectItem>
+            {data?.data
+              .map((d) => d.localOrganization)
+              .filter(
+                (value, index, self) => self.indexOf(value) === index
+              )
+              .map((org) => (
+                <SelectItem key={org} value={org}>
+                  {org}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          </div>
-        ) : (
-          <>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Full Name</TableHead>
-                    <TableHead>Local Organization</TableHead>
-                    <TableHead>Organization Type</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Phone Number</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.data.map((delegate) => (
-                    <TableRow key={delegate.id}>
-                      <TableCell className="whitespace-nowrap">
-                        {delegate.fullName}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {delegate.localOrganization}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {delegate.organizationType}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {delegate.email}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {delegate.phoneNumber}
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent
-                            align="end"
-                            className="w-[200px]"
+      {isLoading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Full Name</TableHead>
+                  <TableHead>Local Organization</TableHead>
+                  <TableHead>Organization Type</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Phone Number</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data?.data.map((delegate) => (
+                  <TableRow key={delegate.id}>
+                    <TableCell className="whitespace-nowrap">
+                      {delegate.fullName}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {delegate.localOrganization}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {delegate.organizationType}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {delegate.email}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {delegate.phoneNumber}
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          align="end"
+                          className="w-[200px]"
+                        >
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleViewDetailsClick(delegate)
+                            }
                           >
-                            <DropdownMenuItem
-                              onClick={() =>
-                                handleViewDetailsClick(delegate)
-                              }
-                            >
-                              <Eye className="h-4 w-4 mr-2" />
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() =>
-                                handleEditClick(delegate)
-                              }
-                            >
-                              <Pencil className="h-4 w-4 mr-2" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() =>
-                                handleAssignTrainingClick(delegate)
-                              }
-                            >
-                              <Calendar className="h-4 w-4 mr-2" />
-                              Assign Training
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() =>
-                                handleBanquetSeatingClick(delegate)
-                              }
-                            >
-                              <Users className="h-4 w-4 mr-2" />
-                              Banquet Seating
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() =>
-                                handleQRCodeClick(delegate)
-                              }
-                            >
-                              <QrCode className="h-4 w-4 mr-2" />
-                              View QR Code
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() =>
-                                handleDeleteClick(delegate)
-                              }
-                              className="text-red-600"
-                            >
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                            <Eye className="h-4 w-4 mr-2" />
+                            View Details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleEditClick(delegate)}
+                          >
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleAssignTrainingClick(delegate)
+                            }
+                          >
+                            <Calendar className="h-4 w-4 mr-2" />
+                            Assign Training
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleBanquetSeatingClick(delegate)
+                            }
+                          >
+                            <Users className="h-4 w-4 mr-2" />
+                            Banquet Seating
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleQRCodeClick(delegate)
+                            }
+                          >
+                            <QrCode className="h-4 w-4 mr-2" />
+                            View QR Code
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleDeleteClick(delegate)
+                            }
+                            className="text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
-            {data?.pagination && (
-              <div className="flex justify-center mt-4">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        onClick={() => handlePageChange(page - 1)}
-                        disabled={page === 1}
-                        className="hidden sm:flex"
-                      />
-                    </PaginationItem>
-                    {Array.from(
-                      { length: data.pagination.totalPages },
-                      (_, i) => i + 1
-                    )
-                      .filter((p) => {
-                        if (data.pagination.totalPages <= 7)
-                          return true;
-                        if (
-                          p === 1 ||
-                          p === data.pagination.totalPages
-                        )
-                          return true;
-                        if (p >= page - 1 && p <= page + 1)
-                          return true;
-                        return false;
-                      })
-                      .map((p, i, arr) => {
-                        if (i > 0 && arr[i - 1] !== p - 1) {
-                          return (
-                            <PaginationItem key={`ellipsis-${p}`}>
-                              <PaginationEllipsis />
-                            </PaginationItem>
-                          );
-                        }
+          {data?.pagination && (
+            <div className="flex justify-center mt-4">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(page - 1)}
+                      disabled={page === 1}
+                      className="hidden sm:flex"
+                    />
+                  </PaginationItem>
+                  {Array.from(
+                    { length: data.pagination.totalPages },
+                    (_, i) => i + 1
+                  )
+                    .filter((p) => {
+                      if (data.pagination.totalPages <= 7)
+                        return true;
+                      if (p === 1 || p === data.pagination.totalPages)
+                        return true;
+                      if (p >= page - 1 && p <= page + 1) return true;
+                      return false;
+                    })
+                    .map((p, i, arr) => {
+                      if (i > 0 && arr[i - 1] !== p - 1) {
                         return (
-                          <PaginationItem key={p}>
-                            <PaginationLink
-                              onClick={() => handlePageChange(p)}
-                              isActive={p === page}
-                            >
-                              {p}
-                            </PaginationLink>
+                          <PaginationItem key={`ellipsis-${p}`}>
+                            <PaginationEllipsis />
                           </PaginationItem>
                         );
-                      })}
-                    <PaginationItem>
-                      <PaginationNext
-                        onClick={() => handlePageChange(page + 1)}
-                        disabled={page === data.pagination.totalPages}
-                        className="hidden sm:flex"
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
-            )}
-          </>
-        )}
+                      }
+                      return (
+                        <PaginationItem key={p}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(p)}
+                            isActive={p === page}
+                          >
+                            {p}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(page + 1)}
+                      disabled={page === data.pagination.totalPages}
+                      className="hidden sm:flex"
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
+        </>
+      )}
 
-        <DelegateForm
-          isOpen={isFormOpen}
-          onClose={() => {
-            setIsFormOpen(false);
-            setSelectedDelegate(null);
-          }}
-          onSubmit={handleFormSubmit}
-          initialData={selectedDelegate || undefined}
-          isSubmitting={isSaving}
-        />
+      <DelegateForm
+        isOpen={isFormOpen}
+        onClose={() => {
+          setIsFormOpen(false);
+          setSelectedDelegate(null);
+        }}
+        onSubmit={handleFormSubmit}
+        initialData={selectedDelegate || undefined}
+        isSubmitting={isSaving}
+      />
 
-        {selectedDelegate && (
-          <>
-            <AssignTrainingModal
-              isOpen={isAssignTrainingOpen}
-              onClose={() => {
-                setIsAssignTrainingOpen(false);
-                setSelectedDelegate(null);
-              }}
-              delegateId={selectedDelegate.id}
-              onAssign={handleAssignTrainings}
-              isSubmitting={isAssigning}
-            />
-            <BanquetSeatingModal
-              isOpen={isBanquetSeatingOpen}
-              onClose={() => {
-                setIsBanquetSeatingOpen(false);
-                setSelectedDelegate(null);
-              }}
-              onAssign={handleAssignBanquetSeating}
-            />
-            <DelegateQRCode
-              isOpen={isQRCodeOpen}
-              onClose={() => {
-                setIsQRCodeOpen(false);
-                setSelectedDelegate(null);
-              }}
-              delegate={selectedDelegate}
-            />
-            <DelegateDetails
-              isOpen={isDetailsOpen}
-              onClose={() => {
-                setIsDetailsOpen(false);
-                setSelectedDelegate(null);
-              }}
-              delegate={selectedDelegate}
-            />
-          </>
-        )}
-      </div>
-    </DashboardLayout>
+      {selectedDelegate && (
+        <>
+          <AssignTrainingModal
+            isOpen={isAssignTrainingOpen}
+            onClose={() => {
+              setIsAssignTrainingOpen(false);
+              setSelectedDelegate(null);
+            }}
+            delegateId={selectedDelegate.id}
+            onAssign={handleAssignTrainings}
+            isSubmitting={isAssigning}
+          />
+          <BanquetSeatingModal
+            isOpen={isBanquetSeatingOpen}
+            onClose={() => {
+              setIsBanquetSeatingOpen(false);
+              setSelectedDelegate(null);
+            }}
+            onAssign={handleAssignBanquetSeating}
+          />
+          <DelegateQRCode
+            isOpen={isQRCodeOpen}
+            onClose={() => {
+              setIsQRCodeOpen(false);
+              setSelectedDelegate(null);
+            }}
+            delegate={selectedDelegate}
+          />
+          <DelegateDetails
+            isOpen={isDetailsOpen}
+            onClose={() => {
+              setIsDetailsOpen(false);
+              setSelectedDelegate(null);
+            }}
+            delegate={selectedDelegate}
+          />
+        </>
+      )}
+    </div>
   );
 };
