@@ -4,7 +4,6 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import {
   Table,
