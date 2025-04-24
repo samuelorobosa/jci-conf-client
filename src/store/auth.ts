@@ -9,7 +9,7 @@ interface AuthStore extends AuthState {
   setLoading: (isLoading: boolean) => void;
   logout: () => void;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string, role?: UserRole) => Promise<void>;
+  register: (email: string, password: string, name: string, role: UserRole) => Promise<void>;
   addAdmin: (email: string, password: string, role: UserRole) => Promise<void>;
   removeAdmin: (adminId: string) => Promise<void>;
   getAdmins: () => Promise<User[]>;
@@ -64,12 +64,12 @@ export const useAuthStore = create<AuthStore>()(
           set({ isLoading: false });
         }
       },
-      register: async (email: string, password: string, name: string, role?: UserRole) => {
+      register: async (email: string, password: string, name: string, role: UserRole) => {
         set({ isLoading: true });
         try {
-          const { token, user } = await authApi.register(email, password, name, role);
+          const { token, user } = await authApi.addAdmin(email, password, role);
           localStorage.setItem('token', token);
-          set({ user, isAuthenticated: true });
+          set({ user: { ...user, name }, isAuthenticated: true });
           toast.success('Registration successful');
         } catch (error) {
           toast.error('Registration failed');

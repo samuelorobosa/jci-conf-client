@@ -140,10 +140,7 @@ export const DelegatesList: FC = () => {
       },
     });
 
-  const {
-    mutate: assignBanquetSeating,
-    isPending: isAssigningSeating,
-  } = useMutation({
+  const { mutate: assignBanquetSeating } = useMutation({
     mutationFn: async ({
       delegateId,
       tableNumber,
@@ -221,14 +218,14 @@ export const DelegatesList: FC = () => {
   };
 
   const handleAssignBanquetSeating = (
-    tableNumber: number,
-    seatNumber: number
+    tableId: string,
+    seatNumber: string
   ) => {
     if (selectedDelegate) {
       assignBanquetSeating({
         delegateId: selectedDelegate.id,
-        tableNumber,
-        seatNumber,
+        tableNumber: Number(tableId),
+        seatNumber: Number(seatNumber),
       });
     }
   };
@@ -489,9 +486,7 @@ export const DelegatesList: FC = () => {
                 setIsBanquetSeatingOpen(false);
                 setSelectedDelegate(null);
               }}
-              delegate={selectedDelegate}
               onAssign={handleAssignBanquetSeating}
-              isSubmitting={isAssigningSeating}
             />
             <DelegateQRCode
               isOpen={isQRCodeOpen}

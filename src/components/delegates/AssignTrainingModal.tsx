@@ -9,7 +9,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'react-hot-toast';
 import { trainingsApi } from '@/lib/api/trainings';
 import { delegatesApi } from '@/lib/api/delegates';
 

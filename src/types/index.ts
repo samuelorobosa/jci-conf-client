@@ -3,6 +3,7 @@ export type UserRole = 'SUPER_ADMIN' | 'ADMIN';
 export interface User {
   id: string;
   email: string;
+  name: string;
   role: UserRole;
   createdAt: string;
   updatedAt: string;
@@ -49,6 +50,10 @@ export interface BanquetTable {
   maxCapacity: number;
   currentOccupancy: number;
   isDignitaryTable: boolean;
+  seats: Array<{
+    number: string;
+    isOccupied: boolean;
+  }>;
 }
 
 export interface AuthState {
